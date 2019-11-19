@@ -10,4 +10,4 @@ E depois acesse no seu navegador o endereço: http://localhost:8080
 
 Autor Eduardo Pedro, Email: edp2013.ep@gmail.com
 
-Obs: Por motivos ocuto um commit desfez mais de 7 commit
+Obs: Por motivos oculto um commit, apagou mais de 7 commit
