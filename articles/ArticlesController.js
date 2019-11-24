@@ -83,6 +83,7 @@ router.post("/articles/update", (req, res) => {
   Articles.update({
       title: title, 
       body: body,
+      slug:Slugify(title),
       categoryId: category
      },
     {
@@ -94,4 +95,38 @@ router.post("/articles/update", (req, res) => {
     res.redirect("/admin/articles");
   });
 });
+router.get("/articles/page/:num", (req, res) =>{
+  var page = req.params.num 
+  var offset = 0
+
+  if(isNaN(page) || page == 1){
+    offset = 0
+  }else{
+    offset = parseInt(page) * 2
+  }
+
+  Articles.findAndCountAll({
+    limit:4,
+    offset: offset,
+    order:[
+      ['id', 'DESC']
+    ]
+  }).then(articles =>{
+    var next;
+    if(offset + 4 >= articles.count){
+      next = false
+    }else{
+      next = true
+    }
+    var result ={
+      page: parseInt(page),
+      next: next,
+      articles: articles
+    }
+    //exibir variavel no navbar
+    Category.findAll().then(categories =>{
+      res.render("admin/articles/page", {result: result, categories: categories})
+    })   
+  })
+})
 module.exports = router;
