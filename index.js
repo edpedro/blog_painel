@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const session = require("express-session")
 const connection = require("./database/database");
 
 //Controller
@@ -12,6 +13,12 @@ const UsersController = require("./users/UsersController")
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
 const User = require("./users/User")
+
+//Session
+app.use(session({
+  secret: "projetoblogpianel",
+  cookie:{maxAge: 30000}
+}))
 
 //View engine
 app.set("view engine", "ejs");
