@@ -15,6 +15,7 @@ router.get("/admin/users/create", (req, res) =>{
 router.post("/users/create", (req, res) =>{
   var email = req.body.email
   var password = req.body.password
+  var name = req.body.name
 
   User.findOne({whre:{email: email}}).then(user =>{
     if(user == undefined){
@@ -24,7 +25,8 @@ router.post("/users/create", (req, res) =>{
     
       User.create({
         email: email,
-        password: hash
+        password: hash,
+        name:name
       }).then(() =>{
         res.redirect("/")
       }).catch((error) =>{
@@ -43,6 +45,7 @@ router.get("/login", (req, res) =>{
 router.post("/authenticate", (req, res) =>{
     var email = req.body.email
     var password = req.body.password
+    var name = req.body.name
 
     User.findOne({where: {email: email}}).then(user =>{
       if(user != undefined){
@@ -50,9 +53,10 @@ router.post("/authenticate", (req, res) =>{
         if(correct){
           req.session.user = {
             id: user.id,
-            email: user.email
+            email: user.email,
+            name: user.name
           }
-          res.redirect("/")
+          res.redirect("/admin/users")
         }else{
           res.redirect("/login")
         }

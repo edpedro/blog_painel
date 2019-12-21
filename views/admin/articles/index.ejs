@@ -11,8 +11,7 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Titulo</th>
-        <th>Slug</th>
+        <th>Titulo</th>        
         <th>Categoria</th>
         <th>Ações</th>
       </tr>
@@ -21,8 +20,7 @@
     <% articles.forEach(article => { %>
       <tr>    
           <td><%= article.id %></td>
-          <td><%= article.title %></th>
-          <td><%= article.slug %></th>
+          <td><%= article.title %></th>        
           <td><%= article.category.title %></td>
           <td> 
               <a href="articles/edit/<%= article.id  %>"

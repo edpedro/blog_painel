@@ -1,35 +1,49 @@
 <%- include partials/header.ejs %>
 <%- include partials/homenavbar.ejs %>
-<body>
-  <div class="container">
-    <hr>
-      <div class="jumbotron">
-          <h1 class="display-4">Bem vido!</h1>
-          <p class="lead">Este é um simples blog</p>
-          <hr class="my-4">
-          <p>Tenha todos os conteudo sobre programação.</p>
-          <a class="btn btn-primary btn-lg" href="#" role="button">Leia mais</a>
-        </div>
-      <hr>
-      <% articles.forEach(article => { %>
-        <div class="card">
-            <div class="card-header">
-                <h2><%= article.title %></h2>
-            </div>
-            <div class="card-body">
-              <a href="/<%= article.slug %>" class="btn btn-succes">Ler artigo</a>
-            </div>
 
+<body>
+  <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Bem Vindo!</h1>
+            <span class="subheading">Este é um simples blog</span>
+          </div>
         </div>
-     <% })%>
-     <div class="row">
-        <div class="col col-12">
-          <a style="float:right;" href="/articles/page/2">Next >>></a>
-          <hr>
-        </div>
-      
+      </div>
     </div>
-      <hr>
-  </div>
-</body>
-<%- include partials/footer.ejs %>
+  </header>
+
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        
+          <div class="post-preview">
+            <% articles.forEach(article => { %>
+            <a href="/<%= article.slug %>">
+              <h2 class="post-title">
+                <%= article.title %>
+              </h2>
+              <h3 class="post-subtitle">
+                <%- article.subTitle %>
+              </h3>
+            </a>
+            <p class="post-meta">Publicado por
+              <a href="#">Start Bootstrap</a>
+              on July 8, 2019</p>
+              <% })%>
+          </div>
+         
+          <hr>
+          <!-- Pager -->
+          <div class="clearfix">
+            <a class="btn btn-primary float-right" href="/articles/page/2">Next &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <%- include partials/footer.ejs %>

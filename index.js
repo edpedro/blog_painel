@@ -17,7 +17,7 @@ const User = require("./users/User")
 //Session
 app.use(session({
   secret: "projetoblogpianel",
-  cookie:{maxAge: 30000}
+  cookie:{maxAge: 300000}
 }))
 
 //View engine
@@ -53,7 +53,8 @@ app.get("/", (req, res) => {
     limit: 4
   }).then(articles =>{
     Category.findAll().then(categories =>{
-      res.render("index", {articles: articles, categories: categories});
+    
+      res.render("index", {articles: articles, categories: categories, username: req.session.user});
     })    
   })  
 });
@@ -67,7 +68,7 @@ app.get("/:slug", (req, res) =>{
   }).then(article =>{
     if(article != undefined){
       Category.findAll().then(categories =>{
-        res.render("article", {article: article, categories: categories});
+        res.render("article", {article: article, categories: categories,username: req.session.user});
       })      
     }else{
       res.redirect("/")
@@ -88,7 +89,7 @@ app.get("/category/:slug", (req, res) =>{
     if(category != undefined){
 
       Category.findAll().then(categories => {
-        res.render("index", {articles: category.articles, categories: categories})
+        res.render("index", {articles: category.articles, categories: categories,username: req.session.user})
       })
     }else{
       res.redirect("/")

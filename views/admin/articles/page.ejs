@@ -1,36 +1,57 @@
 <%- include ../../partials/header.ejs %>
 <%- include ../../partials/homenavbar.ejs %>
-<body>
-  <div class="container">    
-      <hr>
-      <% result.articles.rows.forEach(article => { %>
-        <div class="card">
-            <div class="card-header">
-                <h2><%= article.title %></h2>
-            </div>
-            <div class="card-body">
-              <a href="/<%= article.slug %>" class="btn btn-succes">Ler artigo</a>
-            </div>
 
+<body>
+  <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Artigos</h1>
+          </div>
         </div>
-     <% })%>
-     <div class="row">
-        <div class="col col-12">
-         
-          <% if(result.page > 2) { %>
-          <a style="float: left;" href="/articles/page/<%= result.page - 1 %>"><<< Prev</a>
-          <% }else if(result.page == 2) { %>
-          <a style="float: left;" href="/"><<< Prev</a>
-          <% } %>
-          
-          <% if(result.next) { %>
-          <a style="float:right;" href="/articles/page/<%= result.page + 1 %>">Next >>></a>
-          <% } %>
-          
-        </div>
-        <hr>      
+      </div>
     </div>
-      <hr>
-  </div>
+  </header>
+  <div class="container">
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <% result.articles.rows.forEach(article => { %>
+          <div class="post-preview">
+            <a href="/<%= article.slug %>">
+              <h2 class="post-title">
+                <%= article.title %>
+              </h2>
+              <h3 class="post-subtitle">
+                <%= article.subTitle %>
+              </h3>
+            </a>
+            <p class="post-meta">Publicado por
+              <a href="#">Start Bootstrap</a>
+              on July 8, 2019</p>
+          </div>
+          <% })%>
+          <hr>
+          <!-- Pager -->
+          <div class="clearfix">
+            <% if(result.page > 2) { %>
+
+            <a class="btn btn-primary" style="float: left;" href="/articles/page/<%= result.page - 1 %>">&larr; Prev</a>
+
+            <% }else if(result.page == 2) { %>
+            <a style="float: left;" <a class="btn btn-primary" href="/">&larr; Prev</a>
+            <% } %>
+
+
+            <% if(result.next) { %>
+            <a style="float:right;" class="btn btn-primary" href="/articles/page/<%= result.page + 1 %>">Next &rarr;</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 <%- include ../../partials/footer.ejs %>
