@@ -1,0 +1,37 @@
+<%- include ../../partials/header.ejs %> <%- include ../../partials/navbar.ejs
+%>
+<div class="container">
+  <hr />
+  <h2>Messagem</h2>  
+  <hr />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>        
+        <th>Telefone</th>
+        <th>Messagem</th>     
+      </tr>
+    </thead>
+    <tbody>
+    <% contacts.forEach(contact => { %>
+      <tr>    
+          <td><%= contact.name %></td>
+          <td><%= contact.email %></th>        
+          <td><%= contact.phone %></td>
+          <td><%= contact.message %></td>         
+      </tr>      
+   <% })%>
+    </tbody>
+  </table>
+</div>
+<%- include ../../partials/footer.ejs %>
+<script>
+  function confirmarDelecao(event, form) {
+    event.preventDefault();
+    var decision = confirm("Deletar?");
+    if (decision) {
+      form.submit();
+    }
+  }
+</script>

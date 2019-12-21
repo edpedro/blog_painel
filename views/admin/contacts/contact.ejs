@@ -1,5 +1,5 @@
-<%- include partials/header.ejs %>
-<%- include partials/homenavbar.ejs %>
+<%- include ../../partials/header.ejs %>
+<%- include ../../partials/homenavbar.ejs %>
 
 <body>
   <header class="masthead" style="background-image: url('img/contact-bg.jpg')">
@@ -22,11 +22,11 @@
       <div class="col-lg-8 col-md-10 mx-auto">
         <p>
           Quer entrar em contato? Preencha o formulário abaixo para me enviar uma mensagem e retornaremos o mais breve possível!</p>
-        <form name="sentMessage" id="contactForm" novalidate>
+        <form action="/contact/save" name="sentMessage" id="contactForm" novalidate method="POST">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Nome</label>
-              <input type="text" class="form-control" placeholder="Nome" id="name" required
+              <input type="text" class="form-control" placeholder="Nome" id="name" name="name" required
                 data-validation-required-message="Por favor, insira seu nome.">
               <p class="help-block text-danger"></p>
             </div>
@@ -34,7 +34,7 @@
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email" id="email" required
+              <input type="email" class="form-control" placeholder="Email" id="email" name="email" required
                 data-validation-required-message="Por favor, insira seu email address.">
               <p class="help-block text-danger"></p>
             </div>
@@ -42,7 +42,7 @@
           <div class="control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
               <label>Telefone</label>
-              <input type="tel" class="form-control" placeholder="Telefone" id="phone" required
+              <input type="tel" class="form-control" placeholder="Telefone" id="phone" name="phone" required
                 data-validation-required-message="Por favor, insira seu Telefone.">
               <p class="help-block text-danger"></p>
             </div>
@@ -50,7 +50,7 @@
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Mensagem:</label>
-              <textarea rows="5" class="form-control" placeholder="Mensagem" id="message" required
+              <textarea rows="5" class="form-control" placeholder="Mensagem" id="message" name="message" required
                 data-validation-required-message="Por favor, digite uma mensagem."></textarea>
               <p class="help-block text-danger"></p>
             </div>
@@ -67,4 +67,4 @@
   <hr>
 </body>
 
-<%- include partials/footer.ejs %>
+<%- include ../../partials/footer.ejs %>

@@ -15,11 +15,12 @@ const ContactController = require("./contact/ContactController")
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
 const User = require("./users/User")
+const Contact = require("./contact/Contact")
 
 //Session
 app.use(session({
   secret: "projetoblogpianel",
-  cookie:{maxAge: 3000000000000}
+  cookie:{maxAge: 9000000000000}
 }))
 
 //View engine
@@ -70,7 +71,7 @@ app.get("/:slug", (req, res) =>{
   }).then(article =>{
     if(article != undefined){
       Category.findAll().then(categories =>{
-        res.render("article", {article: article, categories: categories,username: req.session.user});
+        res.render("article", {article: article, categories: categories,moment: moment});
       })      
     }else{
       res.redirect("/")
