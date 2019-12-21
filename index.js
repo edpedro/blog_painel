@@ -2,12 +2,14 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const session = require("express-session")
+const moment = require("moment");
 const connection = require("./database/database");
 
 //Controller
 const CategoriesController = require("./categories/CategoriesController");
 const ArticlesController = require("./articles/ArticlesController");
 const UsersController = require("./users/UsersController")
+const ContactController = require("./contact/ContactController")
 
 //Model
 const Article = require("./articles/Article");
@@ -17,7 +19,7 @@ const User = require("./users/User")
 //Session
 app.use(session({
   secret: "projetoblogpianel",
-  cookie:{maxAge: 300000}
+  cookie:{maxAge: 3000000000000}
 }))
 
 //View engine
@@ -44,6 +46,7 @@ connection
 app.use("/", CategoriesController);
 app.use("/", ArticlesController);
 app.use("/", UsersController)
+app.use("/", ContactController)
 
 app.get("/", (req, res) => {
   Article.findAll({
@@ -51,10 +54,9 @@ app.get("/", (req, res) => {
       ['id', 'DESC']
     ],
     limit: 4
-  }).then(articles =>{
-    Category.findAll().then(categories =>{
-    
-      res.render("index", {articles: articles, categories: categories, username: req.session.user});
+  }).then(articles =>{   
+    Category.findAll().then(categories =>{    
+      res.render("index", {articles: articles, categories: categories, moment:moment});
     })    
   })  
 });

@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require("../categories/Category");
 const Articles = require("./Article")
 const Slugify = require("slugify")
+const moment = require("moment");
 const adminAuth = require("../middleware/adminAuth")
 
 router.get("/admin/articles", adminAuth, (req, res) => {
@@ -15,7 +16,7 @@ router.get("/admin/articles", adminAuth, (req, res) => {
 })
 router.get("/admin/articles/new", adminAuth,(req, res) => {
   Category.findAll().then(categories => {
-    res.render("admin/articles/new", { categories: categories });
+    res.render("admin/articles/new", { categories: categories, username: req.session.user });
   });
 });
 router.post("/articles/save", adminAuth,(req, res) =>{
@@ -23,19 +24,22 @@ router.post("/articles/save", adminAuth,(req, res) =>{
   var body = req.body.body;
   var category = req.body.category
   var subTitle = req.body.subTitle
+  var userName = req.body.userName
+
 
   Articles.create({
     title: title,
     slug: Slugify(title),
     body: body,
     subTitle: subTitle,
-    categoryId: category
+    categoryId: category,
+    userName: userName
   }).then(()=>{
     res.redirect("/admin/articles")
   })
 })
 //Deleta artigos
-router.post("/articles/delete", adminAuth,(req, res) => {
+router.post("/articles/delete",(req, res) => {
   var id = req.body.id;
   if (id != undefined) {
     if (!isNaN(id)) {
@@ -129,7 +133,7 @@ router.get("/articles/page/:num",(req, res) =>{
     }
     //exibir variavel no navbar
     Category.findAll().then(categories =>{
-      res.render("admin/articles/page", {result: result, categories: categories})
+      res.render("admin/articles/page", {result: result, categories: categories,moment:moment})
     })   
   })
 })
