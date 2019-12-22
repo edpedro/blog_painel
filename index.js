@@ -10,6 +10,7 @@ const CategoriesController = require("./categories/CategoriesController");
 const ArticlesController = require("./articles/ArticlesController");
 const UsersController = require("./users/UsersController")
 const ContactController = require("./contact/ContactController")
+const AboutController = require("./abouts/AboutController")
 
 //Model
 const Article = require("./articles/Article");
@@ -48,6 +49,7 @@ app.use("/", CategoriesController);
 app.use("/", ArticlesController);
 app.use("/", UsersController)
 app.use("/", ContactController)
+app.use("/", AboutController)
 
 app.get("/", (req, res) => {
   Article.findAll({
@@ -71,7 +73,7 @@ app.get("/:slug", (req, res) =>{
   }).then(article =>{
     if(article != undefined){
       Category.findAll().then(categories =>{
-        res.render("article", {article: article, categories: categories,moment: moment});
+        res.render("article", {article: article, categories: categories, moment: moment});
       })      
     }else{
       res.redirect("/")
@@ -92,7 +94,7 @@ app.get("/category/:slug", (req, res) =>{
     if(category != undefined){
 
       Category.findAll().then(categories => {
-        res.render("index", {articles: category.articles, categories: categories,username: req.session.user})
+        res.render("index", {articles: category.articles, categories: categories, moment: moment})
       })
     }else{
       res.redirect("/")
