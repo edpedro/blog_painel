@@ -12,14 +12,15 @@ router.get("/admin/users", adminAuth,(req, res) =>{
 router.get("/admin/users/create", (req, res) =>{
   res.render("admin/users/create")
 })
-router.post("/users/create", (req, res) =>{
+router.post("/users/create", adminAuth, (req, res) =>{
   var email = req.body.email
   var password = req.body.password
   var name = req.body.name
 
   User.findOne({whre:{email: email}}).then(user =>{
-    if(user == undefined){
-
+    if(user.length > 0){   
+      res.redirect("/admin/users/create")
+    }else{      
       var salt = bcrypt.genSaltSync(10)
       var hash = bcrypt.hashSync(password, salt)
     
@@ -28,13 +29,10 @@ router.post("/users/create", (req, res) =>{
         password: hash,
         name:name
       }).then(() =>{
-        res.redirect("/")
+        res.redirect("/admin/panel")
       }).catch((error) =>{
         res.redirect("/")
       })
-
-    }else{
-      res.redirect("/admin/users/create")
     }
   })
 })
@@ -56,7 +54,7 @@ router.post("/authenticate", (req, res) =>{
             email: user.email,
             name: user.name
           }
-          res.redirect("/admin/users")
+          res.redirect("/admin/panel")
         }else{
           res.redirect("/login")
         }
@@ -67,6 +65,6 @@ router.post("/authenticate", (req, res) =>{
 })
 router.get("/logout", (req, res) =>{
   req.session.user = undefined;
-  res.redirect("/")
+  res.redirect("/login")
 })
 module.exports = router

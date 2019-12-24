@@ -11,6 +11,7 @@ const ArticlesController = require("./articles/ArticlesController");
 const UsersController = require("./users/UsersController")
 const ContactController = require("./contact/ContactController")
 const AboutController = require("./abouts/AboutController")
+const PanelController = require("./panel/PanelController")
 
 //Model
 const Article = require("./articles/Article");
@@ -21,7 +22,7 @@ const Contact = require("./contact/Contact")
 //Session
 app.use(session({
   secret: "projetoblogpianel",
-  cookie:{maxAge: 9000000000000}
+  cookie:{maxAge: 9000000000000000000000000}
 }))
 
 //View engine
@@ -50,6 +51,7 @@ app.use("/", ArticlesController);
 app.use("/", UsersController)
 app.use("/", ContactController)
 app.use("/", AboutController)
+app.use("/", PanelController)
 
 app.get("/", (req, res) => {
   Article.findAll({

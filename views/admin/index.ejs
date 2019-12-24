@@ -1,0 +1,71 @@
+<%- include ../partials/header.ejs %>
+<%- include ../partials/navbar.ejs %>
+
+<div class="container">
+  <br />
+  <h2 class="ml-5">Painel Administrativo</h2>
+  <hr />
+  <div class="content-wrapper">
+    <p class="ml-5">Bem vindo, <strong><%= username.name%>!</strong></p>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Card-->
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+          <div class="inforide m-1">
+            <div class="row shadow-lg p-2 mb-3 bg-white rounded">
+              <div class="col-lg-3 col-md-4 col-sm-4 col-4 rideone">
+                <img src="/img/149995.png" style="width: 50px;">
+              </div>
+              <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                <h4>Usuario</h4>
+                <h2><%= usersCount %></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+          <div class="inforide m-1">
+            <div class="row shadow-lg p-2 mb-3 bg-white rounded">
+              <div class="col-lg-3 col-md-4 col-sm-4 col-4 ridetwo">
+                <img src="/img/1142015.png" style="width: 50px;">
+              </div>
+              <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                <h4>Categoria</h4>
+                <h2><%= categoryCount %></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+          <div class="inforide m-1">
+            <div class="row shadow-lg p-2 mb-3 bg-white rounded">
+              <div class="col-lg-3 col-md-4 col-sm-4 col-4 ridethree">
+                <img src="/img/1666582.png" style="width: 50px;">
+              </div>
+              <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                <h4>Artigos</h4>
+                <h2><%= articlesCount %></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2 mt-4">
+          <div class="inforide m-1">
+            <div class="row shadow-lg p-2 mb-3 bg-white rounded">
+              <div class="col-lg-3 col-md-4 col-sm-4 col-4 ridethree">
+                <img src="/img/37572.png"style="width: 50px;">
+              </div>
+              <div class="col-lg-9 col-md-8 col-sm-8 col-8 fontsty">
+                <h4>Mensagem</h4>
+                <h2><%= messegesCount %></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include ../partials/footer.ejs %>
