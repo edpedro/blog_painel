@@ -107,6 +107,6 @@ app.get("/category/:slug", (req, res) =>{
 })
 
 //Conexão maquina
-app.listen(8080, () => {
+app.listen(3000, () => {
   console.log("Sevidor ON");
 });
