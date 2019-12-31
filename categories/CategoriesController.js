@@ -3,34 +3,52 @@ const router = express.Router();
 const Category = require("./Category");
 const slugify = require("slugify");
 const adminAuth = require("../middleware/adminAuth")
+const { check, validationResult } = require("express-validator")
 
-router.get("/admin/categories/new", adminAuth,(req, res) => {
-  res.render("admin/categories/new");
+router.get("/admin/categories/new", adminAuth, (req, res) => {
+  res.render("admin/categories/new", {erros: {}});
 });
 
 //Criar nova categoria
-router.post("/categories/save", adminAuth,(req, res) => {
-  var title = req.body.title;
-  if (title != undefined) {
-    Category.create({
-      title: title,
-      slug: slugify(title)
-    }).then(() => {
-      res.redirect("/admin/categories");
-    });
+router.post("/categories/save", adminAuth, [
+    //Validação
+  check('title', "Favor preencher o campo").not().isEmpty()
+
+], (req, res) => {
+
+  const erros = validationResult(req)
+  //Tratamento de erro
+  if (!erros.isEmpty()) {
+    res.render("admin/categories/new", { erros: erros.mapped(), msg: '' })
   } else {
-    res.redirect("admin/categories/new");
+    var title = req.body.title;
+    if (title != undefined) {
+      Category.create({
+        title: title,
+        slug: slugify(title)
+      }).then(() => {
+        req.flash('msg', 'Categoria criado com sucesso')
+        res.redirect("/admin/categories");
+      });
+    } else {
+      req.flash('msg', 'Erro, Favor preencher todos dados')
+      res.redirect("admin/categories/new");
+    }
   }
 });
 //Listagem de categoria
-router.get("/admin/categories", adminAuth,(req, res) => {
-  Category.findAll().then(categories => {
-    res.render("admin/categories/index", { categories: categories });
+router.get("/admin/categories", adminAuth, (req, res) => {
+  Category.findAll({
+    order:[
+      ['id', 'DESC']
+    ],
+  }).then(categories => {
+    res.render("admin/categories/index", { categories: categories,  msg: req.flash('msg') });
   });
 });
 
 //Deleta categoria
-router.post("/categories/delete", adminAuth,(req, res) => {
+router.post("/categories/delete", adminAuth, (req, res) => {
   var id = req.body.id;
   if (id != undefined) {
     if (!isNaN(id)) {
@@ -49,7 +67,7 @@ router.post("/categories/delete", adminAuth,(req, res) => {
   }
 });
 //Editando categoria
-router.get("/admin/categories/edit/:id", adminAuth,(req, res) => {
+router.get("/admin/categories/edit/:id", adminAuth, (req, res) => {
   var id = req.params.id;
   if (isNaN(id)) {
     res.redirect("/admin/categories");
@@ -69,7 +87,7 @@ router.get("/admin/categories/edit/:id", adminAuth,(req, res) => {
     });
 });
 //Atualizar categoria
-router.post("/categories/update", adminAuth,(req, res) => {
+router.post("/categories/update", adminAuth, (req, res) => {
   var id = req.body.id;
   var title = req.body.title;
 

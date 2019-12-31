@@ -47,7 +47,7 @@ router.post("/users/create", adminAuth, [
         }).then(() => {
 
           req.flash('msg', 'Conta cadastrada com sucesso')
-          res.redirect("/admin/panel")
+          res.redirect("/admin/users")
 
         }).catch((error) => {
 

@@ -10,10 +10,25 @@
       <form method="POST" action="/articles/save">
         <input class="form-control" type="text" name="title" placeholder="Defina o titulo"/>
         <br />
+        <% if (erros.title) { %>
+          <div class="alert alert-danger" role="alert" data-dismiss="alert">
+            <%= erros.title.msg %>
+          </div>
+          <% } %>
         <input class="form-control" type="text" name="subTitle" placeholder="Defina o sub titulo"/>
         <br />
+        <% if (erros.subTitle) { %>
+          <div class="alert alert-danger" role="alert" data-dismiss="alert">
+            <%= erros.subTitle.msg %>
+          </div>
+          <% } %>
         <textarea class="form-control" placeholder="Escreva o artigos" name="body" id="article"></textarea>
         <br />
+        <% if (erros.body) { %>
+          <div class="alert alert-danger" role="alert" data-dismiss="alert">
+            <%= erros.body.msg %>
+          </div>
+          <% } %>
         <label>Categoria</label>
         <select name="category" class="form-control">
           <% categories.forEach((category) =>{ %>

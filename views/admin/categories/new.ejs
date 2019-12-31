@@ -14,6 +14,11 @@
           name="title"
           placeholder="Defina o titulo da categoria"
         /><br />
+        <% if (erros.title) { %>
+          <div class="alert alert-danger" role="alert" data-dismiss="alert">
+            <%= erros.title.msg %>
+          </div>
+          <% } %>
         <button class="btn btn-success">Cadastrar</button>
       </form>
     </div>
