@@ -12,49 +12,69 @@ router.get("/admin/users", adminAuth, (req, res) => {
   })
 })
 router.get("/admin/users/create", (req, res) => {
-  res.render("admin/users/create")
+  res.render("admin/users/create", { erros: {}, msg: req.flash('msg') })
 })
 
-router.post("/users/create", adminAuth, (req, res) => {
-  var email = req.body.email
-  var password = req.body.password
-  var name = req.body.name
+router.post("/users/create", adminAuth, [
+  //Validação
+  check('email', "Favor inserir email valido").isEmail(),
+  check('password', "Favor inserir senha maior de 5").isLength({ min: 5 }),
+  check('name', "Favor preencher o campo").not().isEmpty()
 
-  User.findOne({ whre: { email: email } }).then(user => {
-    if (user.length > 0) {
-      res.redirect("/admin/users/create")
-    } else {
-      var salt = bcrypt.genSaltSync(10)
-      var hash = bcrypt.hashSync(password, salt)
+], (req, res) => {
 
-      User.create({
-        email: email,
-        password: hash,
-        name: name
-      }).then(() => {      
-        res.redirect("/admin/panel")
-      }).catch((error) => {
-        res.redirect("/login")
-      })
-    }
-  })
+  const erros = validationResult(req)
+  //Tratamento de erro
+  if (!erros.isEmpty()) {
+    res.render("admin/users/create", { erros: erros.mapped(), msg: '' })
+  } else {
+    var email = req.body.email
+    var password = req.body.password
+    var name = req.body.name
+    //Verificar ser existe email igual
+    User.findOne({ where: { email: email } }).then(user => {
+      if (user != undefined) {
+        req.flash('msg', 'Email já existe')
+        res.redirect("/admin/users/create")
+      } else {
+        var salt = bcrypt.genSaltSync(10)
+        var hash = bcrypt.hashSync(password, salt)
+
+        User.create({
+          email: email,
+          password: hash,
+          name: name
+        }).then(() => {
+
+          req.flash('msg', 'Conta cadastrada com sucesso')
+          res.redirect("/admin/panel")
+
+        }).catch((error) => {
+
+          req.flash('msg', 'Erro, Favor preencher todos campos')
+          res.redirect("/admin/users/create")
+          
+        })
+      }
+    })
+  }
 })
 router.get("/login", (req, res) => {
-  res.render("admin/users/login", { erros: {}, msg:req.flash('msg') })
+  res.render("admin/users/login", { erros: {}, msg: req.flash('msg') })
 })
 
 router.post("/authenticate", [
   //Validação
   check('email', "Favor inserir email valido").isEmail(),
-  check('password', "Favor inserir senha maior de 5").isLength({ min: 5 }),  
+  check('password', "Favor inserir senha maior de 5").isLength({ min: 5 }),
 ], (req, res) => {
 
-  const erros = validationResult(req) 
+  const erros = validationResult(req)
   if (!erros.isEmpty()) {
-    res.render("admin/users/login", { erros: erros.mapped(), msg:'' })
+    res.render("admin/users/login", { erros: erros.mapped(), msg: '' })
 
   } else {
-    
+
     var email = req.body.email
     var password = req.body.password
     var name = req.body.name
@@ -72,11 +92,11 @@ router.post("/authenticate", [
           res.redirect("/admin/panel")
         } else {
           req.flash('msg', 'Email ou Senha invalido')
-          res.redirect("/login",)
+          res.redirect("/login")
         }
       } else {
         req.flash('msg', 'Email ou Senha invalido')
-        res.redirect("/login",)
+        res.redirect("/login")
       }
     })
   }
