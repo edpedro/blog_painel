@@ -14,7 +14,7 @@ router.get("/admin/panel", (req, res) => {
         var usersCount = users.length
         messege.findAll().then(messeges =>{  
           var messegesCount = messeges.length 
-          res.render("admin/index", {categoryCount, articlesCount, usersCount,  messegesCount, username: req.session.user});
+          res.render("admin/index", {categoryCount, articlesCount, usersCount,  messegesCount, username: req.session.user, msg: req.flash('msg')});
         })
       })    
     })

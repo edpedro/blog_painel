@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const session = require("express-session")
 const moment = require("moment");
 const connection = require("./database/database");
+var flash = require('connect-flash');
+var cookieParser = require('cookie-parser')
 
 //Controller
 const CategoriesController = require("./categories/CategoriesController");
@@ -12,6 +14,7 @@ const UsersController = require("./users/UsersController")
 const ContactController = require("./contact/ContactController")
 const AboutController = require("./abouts/AboutController")
 const PanelController = require("./panel/PanelController")
+
 
 //Model
 const Article = require("./articles/Article");
@@ -22,8 +25,14 @@ const Contact = require("./contact/Contact")
 //Session
 app.use(session({
   secret: "projetoblogpianel",
-  cookie:{maxAge: 9000000000000000000000000}
+  cookie:{maxAge: 9000000000000000000000000},
+  proxy: true,
+  resave: false,
+  saveUninitialized: false
+ 
 }))
+app.use(cookieParser())
+app.use(flash());
 
 //View engine
 app.set("view engine", "ejs");
@@ -52,6 +61,7 @@ app.use("/", UsersController)
 app.use("/", ContactController)
 app.use("/", AboutController)
 app.use("/", PanelController)
+
 
 app.get("/", (req, res) => {
   Article.findAll({
@@ -107,6 +117,6 @@ app.get("/category/:slug", (req, res) =>{
 })
 
 //Conexão maquina
-app.listen(3000, () => {
+app.listen(8080, () => {
   console.log("Sevidor ON");
 });

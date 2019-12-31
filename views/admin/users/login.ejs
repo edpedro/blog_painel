@@ -1,17 +1,33 @@
 <%- include ../../partials/header.ejs %>
-<div class="container"> 
+<div class="container">
   <hr>
   <div class="clearfix mx-auto">
-    <a class="btn btn-primary"  href="/">Visualizar Blog</a>
+    <a class="btn btn-primary" href="/">Visualizar Blog</a>
   </div>
   <div class="card mt-5">
     <div class="card-header">
       <h2>Login</h2>
     </div>
-    <div class="card-body">
+    <div class="card-body"> 
+      <% if (msg.length > 0) { %>
+        <div class="alert alert-danger" role="alert" data-dismiss="alert">
+          <%= msg %>
+        </div>
+        <% } %>
+         
       <form action="/authenticate" method="POST">
         <input class="form-control" name="email" type="email" placeholder="Digite seu email"><br>
+        <% if (erros.email) { %>
+        <div class="alert alert-danger" role="alert" data-dismiss="alert">
+          <%= erros.email.msg %>
+        </div>
+        <% } %>
         <input class="form-control" name="password" type="password" placeholder="Digite sua senha"><br>
+        <% if (erros.password) { %>
+        <div class="alert alert-danger" role="alert" data-dismiss="alert">
+          <%= erros.password.msg %>
+        </div>
+        <% } %>
         <button type="submit" class="btn btn-success btn-block">Entrar</button>
       </form>
     </div>
@@ -19,5 +35,11 @@
   </div>
 
 </div>
-
+<script>
+  window.setTimeout(function () {
+    $(".alert").fadeTo(500, 0).slideUp(500, function () {
+      $(this).remove();
+    });
+  }, 3000);
+</script>
 <%- include ../../partials/footer.ejs %>
