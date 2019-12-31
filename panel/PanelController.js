@@ -4,8 +4,9 @@ const Category = require("../categories/Category")
 const Article = require("../articles/Article")
 const User = require('../users/User')
 const messege = require("../contact/Contact")
+const adminAuth = require("../middleware/adminAuth")
 
-router.get("/admin/panel", (req, res) => {
+router.get("/admin/panel",adminAuth, (req, res) => {
   Category.findAll().then(categories =>{
     var categoryCount = categories.length
     Article.findAll().then(articles =>{
